@@ -37,11 +37,11 @@ void Modes::setMode(std::string mod)
     setModeClient.call(setmodecommand);
     if(setmodecommand.response.mode_sent)
     {
-        ROS_INFO(">>>>>>%s>>>>>>",mod);
+        ROS_INFO(">>>>>>%s>>>>>>",mod.data());
     }
     else
     {
-        ROS_ERROR("Cannot set mode to %s!",mod);
+        ROS_ERROR("Cannot set mode to %s!",mod.data());
     }
 }
 void Modes::resetMode()

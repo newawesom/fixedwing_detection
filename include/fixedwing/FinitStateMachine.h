@@ -2,14 +2,14 @@
 #include<vector>
 #include<ros/ros.h>
 
-#define TAKEOFF 0
-#define IDEL 1
-#define DETEC 2
-#define TASK 3
-#define LAND 4
+#define MY_TAKEOFF 0
+#define MY_IDEL 1
+#define MY_DETEC 2
+#define MY_TASK 3
+#define MY_LAND 4
 
-#define FAIL 0
-#define SUCCESS 1
+#define MY_FAIL 0
+#define MY_SUCCESS 1
 
 class Transition
 {

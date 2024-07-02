@@ -1,12 +1,12 @@
 #include "../include/fixedwing/WayPoints.h"
-#ifndef TAKEOFF
-#define TAKEOFF 0
-#define IDEL 1
-#define LAND 4
+#ifndef MY_TAKEOFF
+#define MY_TAKEOFF 0
+#define MY_IDEL 1
+#define MY_LAND 4
 #endif
-#ifndef FAIL 0
-#define FAIL 0
-#define SUCCESS 1
+#ifndef MY_FAIL 
+#define MY_FAIL 0
+#define MY_SUCCESS 1
 #endif
 
 
@@ -20,26 +20,29 @@ int event_Takeoff(ros::NodeHandle* nh)
     while(!stateMt.state.armed)
     {
         md.setArm();
+        ros::spinOnce();
         rate.sleep();
     }
     while(stateMt.state.mode != "AUTO.MISSION")
     {
         md.setMode("AUTO.MISSION");
+        ros::spinOnce();
         rate.sleep();
     }
     if(stateMt.state.mode != "AUTO.MISSION" || !stateMt.state.armed)
     {
-        return FAIL;
+        return MY_FAIL;
     }
     for(;;)
     {
-        if(stateMt.state.mode == "AUTO.HOLD")
+        if(stateMt.state.mode != "AUTO.MISSION")
         {
-            return SUCCESS;
+            return MY_SUCCESS;
             break;
         }
         else
         {
+            ros::spinOnce();
             rate.sleep();
         }
     }
@@ -49,8 +52,8 @@ void takeoffwp(Modes* m)
     WayPointsCnt wayp0;
     WayPointsCnt wayp1;
     std::vector<mavros_msgs::Waypoint> wps;
-    wps.push_back(wayp0.setWayPoints(3,22,true,true,0.0,0.0,0.0,NAN,47.397713,8.547605,10));
-    wps.push_back(wayp1.setWayPoints(3,16,false,true,0.0,0.0,0.0,NAN,47.397713,8.547745,10));
+    wps.push_back(wayp0.setWayPoints(3,22,true,true,0.0,0.0,0.0,NAN,47.3975169,8.5486934,20));
+    wps.push_back(wayp1.setWayPoints(3,16,false,true,0.0,0.0,0.0,NAN,47.3975259,8.5486934,20));
     m->wpPush(wps);
     m->wpPull();
 }

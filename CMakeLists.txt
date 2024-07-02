@@ -121,24 +121,26 @@ include_directories(
 )
 
 ## Declare a C++ library
- add_library(${PROJECT_NAME}
-   include/${PROJECT_NAME}/WayPoints.h
-   include/${PROJECT_NAME}/FinitStateMachine.h
-   src/WayPoints.cpp
+ add_library(fixedwing
+#   include/${PROJECT_NAME}/WayPoints.h
+#   include/${PROJECT_NAME}/FinitStateMachine.h
+   src/WayPoint.cpp
    src/FinitStateMachine.cpp
-   src/takeoff.cpp
+#   src/takeoff.cpp
+#   src/idel.cpp
+#   src/land.cpp
  )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-# add_dependencies(${PROJECT_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
 
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
  add_executable(fixedwing_node src/fixedwing_node.cpp)
-
+ add_dependencies(fixedwing_node fixedwing)
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
 ## target back to the shorter version for ease of user use
@@ -150,10 +152,10 @@ include_directories(
 # add_dependencies(${PROJECT_NAME}_nod    <node pkg="sitl_study" type="hear_node.py" name="hear_node_py" output="screen"  />e ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
- target_link_libraries(fixedwing
+ target_link_libraries(fixedwing_node
+  fixedwing
    ${catkin_LIBRARIES}
  )
-  target_link_libraries(fixedwing_node fixedwing ${catkin_LIBRARIES})
 #############
 ## Install ##
 #############

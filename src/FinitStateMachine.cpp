@@ -1,5 +1,7 @@
 #include "../include/fixedwing/FinitStateMachine.h"
 #include "./takeoff.cpp"
+#include "./idel.cpp"
+#include "./land.cpp"
 Transition::Transition()
 {
     Transition::current = 0;
@@ -89,7 +91,7 @@ int FSM::event()
             break;
         case 1:
             ROS_INFO(">>>IDEL:Waiting for detection...");
-            //FSM::rc=event_Idel();
+            FSM::rc=event_Idel(_nh);
             return rc;
             break;
         case 2:
@@ -113,7 +115,7 @@ int FSM::event()
             break;
         case 4:
             ROS_INFO(">>>Landing...");
-            //FSM::rc = event_Landing();
+            FSM::rc = event_Landing(_nh);
             if(rc)
                 ROS_INFO("Landed.");
             return rc;
