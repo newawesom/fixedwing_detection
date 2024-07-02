@@ -91,7 +91,7 @@ int FSM::event()
             break;
         case 1:
             ROS_INFO(">>>IDEL:Waiting for detection...");
-            FSM::rc=event_Idel(_nh);
+            FSM::rc = event_Idel(_nh);
             return rc;
             break;
         case 2:

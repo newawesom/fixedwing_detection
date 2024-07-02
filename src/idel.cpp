@@ -1,5 +1,4 @@
 #include"../include/fixedwing/WayPoints.h"
-#include<conio.h>
 #ifndef MY_TAKEOFF
 #define MY_TAKEOFF 0
 #define MY_IDEL 1
@@ -14,8 +13,10 @@
 void idel_wpSet(Modes* m)
 {
     WayPointsCnt wayp0;
+    WayPointsCnt wayp1;
     std::vector<mavros_msgs::Waypoint> wps;
-    wps.push_back(wayp0.setWayPoints(3,17,false,true,0.0,0.0,25,NAN,47.3975323,8.5486766,20));
+    wps.push_back(wayp1.setWayPoints(3,31,false,true,0.0,25,0,NAN,47.3975323,8.5486766,20));
+    wps.push_back(wayp0.setWayPoints(3,19,false,true,15,0,25,NAN,47.3975323,8.5486766,20));
     m->wpPush(wps);
     m->wpPull();
 }
@@ -34,20 +35,14 @@ int event_Idel(ros::NodeHandle* nh)
         }
     for(;;)
     {
-        if(_kbhit())//当键盘按下时返回true
+        if(stateM.state.mode != "AUTO.MISSION")
         {
-            int ch = _getche() - 48;//0->48,1->49;
-            md.resetMode();
-            if(ch)
-            {
-                return MY_SUCCESS;
-            }
-            else
-            {
-                return MY_FAIL;
-            }
+            return 1;
             break;
-            
-        }      
+        }
+        else{
+        ros::spinOnce();
+        rate.sleep();
+        }
     }
 }

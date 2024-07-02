@@ -20,6 +20,8 @@ void land_wpSet(Modes* m)
     wps.push_back(wp1.setWayPoints(3,16,false,true,0.0,0.0,0.0,NAN,47.3975247,8.5479390,10));
     wps.push_back(wp2.setWayPoints(2,189,false,true,0,0,0,0,0,0,0));
     wps.push_back(wp3.setWayPoints(3,21,false,true,0,0,0,NAN,47.3975176,8.5465395,0));
+    m->wpPush(wps);
+    m->wpPull();
 }
 int event_Landing(ros::NodeHandle* nh)
 {
@@ -30,6 +32,8 @@ int event_Landing(ros::NodeHandle* nh)
     while(stateM.state.mode != "AUTO.MISSION")
     {
         md.setMode("AUTO.MISSION");
+        ros::spinOnce();
+        rate.sleep();
     }
     for(;;)
     {
