@@ -13,6 +13,11 @@
 #include<mavros_msgs/WaypointClear.h>
 #include<mavros_msgs/State.h>
 
+
+#define MY_HOME_POINT_ALT 47.3975171//The global position of home point.X_ALT
+#define MY_HOME_POINT_LONG 8.5455938 //The global position of home point.Y_LONG
+#define MY_TARGET_POINT_ALT 47.3975323//The global position of target point.X_ALT
+#define MY_TARGET_POINT_LONG 8.5486766//The global position of target point.Y_LONG
 class Modes
 {
     public:
