@@ -126,6 +126,7 @@ include_directories(
    include/${PROJECT_NAME}/FinitStateMachine.h
    src/WayPoints.cpp
    src/FinitStateMachine.cpp
+   src/takeoff.cpp
  )
 
 ## Add cmake target dependencies of the library

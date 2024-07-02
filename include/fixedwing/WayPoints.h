@@ -3,7 +3,7 @@
 #include<iostream>
 #include<ros/ros.h>
 #include<vector>
-#include<std_msgs/String.h>
+#include<string>
 #include<mavros/mavros.h>
 #include<mavros_msgs/CommandBool.h>
 #include<mavros_msgs/SetMode.h>
@@ -18,7 +18,7 @@ class Modes
     public:
     Modes(ros::NodeHandle* nh);
     void setArm();
-    void setMode(std_msgs::String mod);
+    void setMode(std::string mod);
     void resetMode();
     void wpPush(std::vector<mavros_msgs::Waypoint> wps);
     void wpPull();

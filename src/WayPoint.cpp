@@ -31,17 +31,17 @@ void Modes::setArm()
         ROS_ERROR("Cannot Arm!");
     }   
 }
-void Modes::setMode(std_msgs::String mod)
+void Modes::setMode(std::string mod)
 {
-    setmodecommand.request.custom_mode = mod.data;
+    setmodecommand.request.custom_mode = mod;
     setModeClient.call(setmodecommand);
     if(setmodecommand.response.mode_sent)
     {
-        ROS_INFO(">>>>>>%s>>>>>>",mod.data);
+        ROS_INFO(">>>>>>%s>>>>>>",mod);
     }
     else
     {
-        ROS_ERROR("Cannot set mode to %s!",mod.data);
+        ROS_ERROR("Cannot set mode to %s!",mod);
     }
 }
 void Modes::resetMode()

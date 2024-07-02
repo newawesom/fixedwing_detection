@@ -80,7 +80,7 @@ int FSM::event()
     {
         case 0:
             ROS_INFO(">>>Take Off!");
-            //FSM::rc = event_Takeoff();
+            FSM::rc = event_Takeoff(_nh);
             if(rc)
                 ROS_INFO("Take Off Successfully!");
             else
