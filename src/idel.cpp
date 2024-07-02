@@ -26,17 +26,17 @@ int event_Idel(ros::NodeHandle* nh)
     stateMoniter stateM(nh);
     ros::Rate rate(20.0);
     idel_wpSet(&md);
-    for(;;)
-    {
-        while(stateM.state.mode != "AUTO.MISSION")
+    while(stateM.state.mode != "AUTO.MISSION")
         {
             md.setMode("AUTO.MISSION");
             ros::spinOnce();
             rate.sleep();
         }
+    for(;;)
+    {
         if(_kbhit())//当键盘按下时返回true
         {
-            int ch = _getche() - 96;//0->96,1->97;
+            int ch = _getche() - 48;//0->48,1->49;
             md.resetMode();
             if(ch)
             {
@@ -48,8 +48,6 @@ int event_Idel(ros::NodeHandle* nh)
             }
             break;
             
-        }
-        ros::spinOnce();
-        rate.sleep();        
+        }      
     }
 }
