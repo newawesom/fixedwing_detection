@@ -16,6 +16,7 @@ int event_Takeoff(ros::NodeHandle* nh)
     Modes md(nh);
     stateMoniter stateMt(nh);
     ros::Rate rate(20.0);
+    md.wpClear();
     takeoffwp(&md);
     while(!stateMt.state.armed)
     {

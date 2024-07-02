@@ -2,6 +2,7 @@
 #include "./takeoff.cpp"
 #include "./idel.cpp"
 #include "./land.cpp"
+#include "./detect.cpp"
 Transition::Transition()
 {
     Transition::current = 0;
@@ -96,7 +97,7 @@ int FSM::event()
             break;
         case 2:
             ROS_INFO(">>>Detecting");
-            //FSM::rc = event_Detection();
+            FSM::rc = event_Detect(_nh);
             if(rc)
             {
                 ROS_INFO("Detected!");
