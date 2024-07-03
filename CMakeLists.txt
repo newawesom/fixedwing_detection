@@ -126,6 +126,7 @@ include_directories(
 #   include/${PROJECT_NAME}/FinitStateMachine.h
    src/WayPoint.cpp
    src/FinitStateMachine.cpp
+   src/global_ENU_tf.cpp
 #   src/takeoff.cpp
 #   src/idel.cpp
 #   src/land.cpp

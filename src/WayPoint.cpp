@@ -94,7 +94,7 @@ void Modes::wpClear()
 }
 mavros_msgs::Waypoint WayPointsCnt::setWayPoints(int fram,int command, int is_current, int autocontinue, float param1, float param2, float param3, float param4, float x_lat, float y_long, float z_alt)
 {
-    wp.frame = fram;
+    wp.frame = (fram == 4)?3:fram;
     wp.command = command;
     wp.is_current = is_current;
     wp.autocontinue = autocontinue;
@@ -102,8 +102,8 @@ mavros_msgs::Waypoint WayPointsCnt::setWayPoints(int fram,int command, int is_cu
     wp.param2 = param2;
     wp.param3 = param3;
     wp.param4 = param4;
-    wp.x_lat = x_lat;
-    wp.y_long = y_long;
+    wp.x_lat = (fram == 4)?(tf.enu2world(point(x_lat,y_long)).x):x_lat;
+    wp.y_long = (fram == 4)?(tf.enu2world(point(x_lat,y_long)).y):y_long;
     wp.z_alt = z_alt;
 
     return wp;
@@ -120,4 +120,8 @@ void stateMoniter::state_CB(const mavros_msgs::State::ConstPtr& msg)
 void stateMoniter::Initialize()
 {
     stateMoniter::state_sub = _nh->subscribe<mavros_msgs::State>("/mavros/state",20,&stateMoniter::state_CB,this);
+}
+WayPointsCnt::WayPointsCnt()
+{
+    tf = transf(MY_HOME_POINT_ALT,MY_HOME_POINT_LONG);
 }

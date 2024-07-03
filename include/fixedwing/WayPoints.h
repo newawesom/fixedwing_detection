@@ -12,7 +12,7 @@
 #include<mavros_msgs/WaypointPull.h>
 #include<mavros_msgs/WaypointClear.h>
 #include<mavros_msgs/State.h>
-
+#include"global_ENU_tf.h"
 
 #define MY_HOME_POINT_ALT 47.3975171//The global position of home point.X_ALT
 #define MY_HOME_POINT_LONG 8.5455938 //The global position of home point.Y_LONG
@@ -47,8 +47,10 @@ class WayPointsCnt
 {
     private:
     mavros_msgs::Waypoint wp;
+    transf tf;
     public:
     mavros_msgs::Waypoint setWayPoints(int fram, int command, int is_current, int autocontinue, float param1, float param2, float param3, float param4, float x_lat, float y_long, float z_alt);
+    WayPointsCnt();
 };
 class stateMoniter
 {

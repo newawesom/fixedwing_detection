@@ -53,8 +53,8 @@ void takeoffwp(Modes* m)
     WayPointsCnt wayp0;
     WayPointsCnt wayp1;
     std::vector<mavros_msgs::Waypoint> wps;
-    wps.push_back(wayp0.setWayPoints(3,22,true,true,0.0,0.0,0.0,NAN,MY_HOME_POINT_ALT,MY_HOME_POINT_LONG + 0.0030992,20));
-    wps.push_back(wayp1.setWayPoints(3,16,false,true,0.0,0.0,0.0,NAN,MY_HOME_POINT_ALT,MY_HOME_POINT_LONG + 0.0030992,20));
+    wps.push_back(wayp0.setWayPoints(4,22,true,true,0.0,0.0,0.0,NAN,0,100,20));
+    wps.push_back(wayp1.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,0,100,20));
     m->wpPush(wps);
     m->wpPull();
 }
