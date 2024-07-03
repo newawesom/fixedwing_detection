@@ -16,7 +16,7 @@ int event_Detect(ros::NodeHandle* nh)
     }
     for(;;)
     {
-        if(stateM.state.mode != "AUTO.LOITER")
+        if(stateM.state.mode == "AUTO.LOITER")
         {
             detect();
             break;
@@ -34,7 +34,7 @@ int event_Detect(ros::NodeHandle* nh)
     for(;;)
     {
         ros::spinOnce();
-        if(stateM.state.mode != "AUTO.LOITER")
+        if(stateM.state.mode == "AUTO.LOITER")
         {
             return 1;
             break;

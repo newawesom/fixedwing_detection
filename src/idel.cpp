@@ -35,7 +35,7 @@ int event_Idel(ros::NodeHandle* nh)
         }
     for(;;)
     {
-        if(stateM.state.mode != "AUTO.LOITER")
+        if(stateM.state.mode == "AUTO.LOITER")
         {
             return 1;
             break;
