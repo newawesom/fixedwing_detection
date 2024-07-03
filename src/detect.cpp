@@ -16,7 +16,7 @@ int event_Detect(ros::NodeHandle* nh)
     }
     for(;;)
     {
-        if(stateM.state.mode != "AUTO.MISSION")
+        if(stateM.state.mode != "AUTO.LOITER")
         {
             detect();
             break;
@@ -34,7 +34,7 @@ int event_Detect(ros::NodeHandle* nh)
     for(;;)
     {
         ros::spinOnce();
-        if(stateM.state.mode != "AUTO.MISSION")
+        if(stateM.state.mode != "AUTO.LOITER")
         {
             return 1;
             break;
@@ -59,7 +59,7 @@ void detec_setwp2(Modes* m)
 {
     WayPointsCnt wp1;
     std::vector<mavros_msgs::Waypoint> wps1;
-    wps1.push_back(wp1.setWayPoints(3,16,false,true,0.0,0.0,0.0,180,MY_TARGET_POINT_ALT,MY_TARGET_POINT_LONG + 0.002,20));
+    wps1.push_back(wp1.setWayPoints(3,16,false,true,0.0,0.0,0.0,180,MY_TARGET_POINT_ALT,MY_TARGET_POINT_LONG + 0.002,30));
     m->wpPush(wps1);
     m->wpPull();
 }

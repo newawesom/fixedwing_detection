@@ -36,7 +36,7 @@ int event_Takeoff(ros::NodeHandle* nh)
     }
     for(;;)
     {
-        if(stateMt.state.mode != "AUTO.MISSION")
+        if(stateMt.state.mode == "AUTO.LOITER")
         {
             return MY_SUCCESS;
             break;
