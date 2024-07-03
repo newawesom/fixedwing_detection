@@ -15,8 +15,8 @@ void idel_wpSet(Modes* m)
     WayPointsCnt wayp0;
     WayPointsCnt wayp1;
     std::vector<mavros_msgs::Waypoint> wps;
-    wps.push_back(wayp1.setWayPoints(3,31,false,true,0.0,50,0,NAN,MY_TARGET_POINT_ALT,MY_TARGET_POINT_LONG,30));
-    wps.push_back(wayp0.setWayPoints(3,19,false,true,15,0,50,NAN,MY_TARGET_POINT_ALT,MY_TARGET_POINT_LONG,30));
+    wps.push_back(wayp1.setWayPoints(3,31,false,true,0.0,-50,0,NAN,MY_TARGET_POINT_ALT,MY_TARGET_POINT_LONG,30));
+    wps.push_back(wayp0.setWayPoints(3,19,false,true,15,0,-50,NAN,MY_TARGET_POINT_ALT,MY_TARGET_POINT_LONG,30));
     m->wpPush(wps);
     m->wpPull();
 }

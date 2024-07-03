@@ -46,10 +46,12 @@ int event_Detect(ros::NodeHandle* nh)
 void detec_setwp1(Modes* m)
 {
     WayPointsCnt wp;
+    WayPointsCnt wp1;
     WayPointsCnt wp2;
     std::vector<mavros_msgs::Waypoint> wps;
-    wps.push_back(wp2.setWayPoints(3,16,false,true,0.0,0.0,0.0,NAN,MY_TARGET_POINT_ALT,MY_HOME_POINT_LONG,30));
-    wps.push_back(wp.setWayPoints(3,16,false,true,0.0,0.0,0.0,0.0,MY_TARGET_POINT_ALT,MY_TARGET_POINT_LONG - 0.001,30));
+    wps.push_back(wp2.setWayPoints(3,16,false,true,0.0,0.0,0.0,NAN,MY_HOME_POINT_ALT,MY_HOME_POINT_LONG + 0.001,30));
+    wps.push_back(wp1.setWayPoints(3,19,false,true,10,0.0,-25,NAN,MY_HOME_POINT_ALT,MY_HOME_POINT_LONG + 0.001,30));
+    wps.push_back(wp.setWayPoints(3,16,false,true,0.0,0.0,0.0,NAN,MY_TARGET_POINT_ALT,MY_TARGET_POINT_LONG + 0.00015,30));
     m->wpPush(wps);
     m->wpPull();
 }

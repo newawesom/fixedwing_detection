@@ -37,7 +37,7 @@ void Modes::setMode(std::string mod)
     setModeClient.call(setmodecommand);
     if(setmodecommand.response.mode_sent)
     {
-        ROS_INFO(">>>>>>%s>>>>>>",mod.data());
+        std::cout<<"<";
     }
     else
     {
