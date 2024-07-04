@@ -78,7 +78,7 @@ void FSM::event_trans(int cond)
         }
     }
 }
-int FSM::event()
+int FSM::event(double* tar_x,double *tar_y)
 {
     switch(FSM::current_state)
     {
@@ -98,7 +98,7 @@ int FSM::event()
             break;
         case 2:
             ROS_INFO(">>>Detecting");
-            FSM::rc = event_Detect(_nh);
+            FSM::rc = event_Detect(_nh, tar_x, tar_y);
             if(rc)
             {
                 ROS_INFO("Detected!");
@@ -110,7 +110,7 @@ int FSM::event()
             break;
         case 3:
             ROS_INFO(">>>Tasking>>>");
-            FSM::rc = event_Tasking(_nh);
+            FSM::rc = event_Tasking(_nh, tar_x, tar_y);
             if(rc)
                 ROS_INFO("Task has been finished.");
             return rc;
@@ -129,9 +129,10 @@ int FSM::event()
 }
 void FSM::run()
 {
+    double tar_x,tar_y;
     for(;;)
     {
-        FSM::event();
+        FSM::event(&tar_x,&tar_y);
         if(FSM::current_state == 4)
         {
             ROS_INFO("Exit.");

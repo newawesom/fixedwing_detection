@@ -1,16 +1,18 @@
 #include"../include/fixedwing/WayPoints.h"
+#include<thread>
 double x_alt = 240;
 double y_long = 0;
 void task_wpSet(Modes*,double,double);
 void calu(double*, double*);
+void bomb(double*,double*);
 void Servo_do();
-int event_Tasking(ros::NodeHandle* nh,double x, double y)
+int event_Tasking(ros::NodeHandle* nh,double* tar_x, double* tar_y)
 {
     Modes md(nh);
     stateMoniter stateM(nh);
     ros::Rate rate(20.0);
-    x_alt = x;
-    y_long = y;
+    x_alt = *tar_x;
+    y_long = *tar_y;
     double x_,y_;
     calu(&x_,&y_);
     task_wpSet(&md,x_,y_);
@@ -20,10 +22,12 @@ int event_Tasking(ros::NodeHandle* nh,double x, double y)
         ros::spinOnce();
         rate.sleep();
     }
+    std::thread bomb_thread(bomb,tar_x,tar_y);//thread begin
     for(;;)
     {
         if(stateM.state.mode == "AUTO.LOITER")
         {
+            bomb_thread.join();//thread.join();
             return 1;
             break;
         }
@@ -72,4 +76,8 @@ void calu(double* x_,double* y_)
 {
     *x_ = 2 * x_alt - 280;
     *y_ = 2 * y_long - 0;
+}
+void bomb(double* tar_x,double* tar_y)
+{
+
 }

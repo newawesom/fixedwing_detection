@@ -1,8 +1,9 @@
 #include"../include/fixedwing/WayPoints.h"
+#include<thread>
 void detec_setwp1(Modes* m);
 void detec_setwp2(Modes* m);
-void detect();
-int event_Detect(ros::NodeHandle* nh)
+void detect(double*,double*);
+int event_Detect(ros::NodeHandle* nh,double* tar_x,double* tar_y)
 {
     Modes md(nh);
     stateMoniter stateM(nh);
@@ -14,11 +15,12 @@ int event_Detect(ros::NodeHandle* nh)
         ros::spinOnce();
         rate.sleep();   
     }
+    std::thread detect_thread(detect,tar_x,tar_y);//thread begin
     for(;;)
     {
         if(stateM.state.mode == "AUTO.LOITER")
         {
-            detect();//detect()做成并行线程
+            //detect_thread.join();
             break;
         }
         ros::spinOnce();
@@ -36,6 +38,7 @@ int event_Detect(ros::NodeHandle* nh)
         ros::spinOnce();
         if(stateM.state.mode == "AUTO.LOITER")
         {
+            detect_thread.join();
             return 1;
             break;
         }
@@ -67,7 +70,7 @@ void detec_setwp2(Modes* m)
     m->wpPush(wps1);
     m->wpPull();
 }
-void detect()
+void detect(double* tar_x,double* tar_y)
 {
     ROS_WARN(">>>CAPTION>>>");
 }

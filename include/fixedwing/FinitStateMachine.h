@@ -40,7 +40,7 @@ class FSM
     void setStart_State(int);
     void setTrans(Transition);
     void event_trans(int);
-    int event();
+    int event(double*, double*);
     void run();
     FSM(ros::NodeHandle* nh);
 };
