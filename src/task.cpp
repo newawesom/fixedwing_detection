@@ -1,14 +1,10 @@
 #include"../include/fixedwing/WayPoints.h"
-
-double x_alt = MY_TARGET_POINT_ALT;
-double y_long = MY_TARGET_POINT_LONG;
-double x_offset = 0;
-double y_offset = 0.001;
-void task_wpSet(Modes*);
-void calu(double, double);
+double x_alt = 240;
+double y_long = 0;
+void task_wpSet(Modes*,double,double);
+void calu(double*, double*);
 void Servo_do();
-
-void event_Task(ros::NodeHandle* nh,double x, double y)
+int event_Tasking(ros::NodeHandle* nh,double x, double y)
 {
     Modes md(nh);
     stateMoniter stateM(nh);
@@ -16,7 +12,7 @@ void event_Task(ros::NodeHandle* nh,double x, double y)
     x_alt = x;
     y_long = y;
     double x_,y_;
-    calu(x_,y_);
+    calu(&x_,&y_);
     task_wpSet(&md,x_,y_);
     while(stateM.state.mode != "AUTO.MISSION")
     {
@@ -26,13 +22,39 @@ void event_Task(ros::NodeHandle* nh,double x, double y)
     }
     for(;;)
     {
-        
+        if(stateM.state.mode == "AUTO.LOITER")
+        {
+            return 1;
+            break;
+        }
+        ros::spinOnce();
+        rate.sleep();
     }
-
 }
-void event_Task(ros::NodeHandle* nh)
+int event_Tasking(ros::NodeHandle* nh)
 {
-
+    Modes md(nh);
+    stateMoniter stateM(nh);
+    ros::Rate rate(20.0);
+    double x_,y_;
+    calu(&x_,&y_);
+    task_wpSet(&md,x_,y_);
+    while(stateM.state.mode != "AUTO.MISSION")
+    {
+        md.setMode("AUTO.MISSION");
+        ros::spinOnce();
+        rate.sleep();
+    }
+    for(;;)
+    {
+        if(stateM.state.mode == "AUTO.LOITER")
+        {
+            return 1;
+            break;
+        }
+        ros::spinOnce();
+        rate.sleep();
+    }
 }
 void task_wpSet(Modes* m,double x_, double y_)
 {
@@ -40,12 +62,14 @@ void task_wpSet(Modes* m,double x_, double y_)
     WayPointsCnt wp1;
     WayPointsCnt wp2;
     std::vector<mavros_msgs::Waypoint> wps;
-    wps.push_back(wp0.setWayPoints(3,16,false,true,0.0,0.1,0.0,NAN,MY_TARGET_POINT_ALT + x_offset,MY_TARGET_POINT_LONG + y_offset,30));
-    wps.push_back(wp0.setWayPoints(3,16,false,true,0.0,0.1,0.0,NAN,x_alt,y_long,20));
-    wps.push_back(wp0.setWayPoints(3,16,false,true,0.0,0.1,0.0,NAN,x_,y_,10));
+    wps.push_back(wp0.setWayPoints(4,16,false,true,0.0,0,0.0,NAN,280,0,20));
+    wps.push_back(wp0.setWayPoints(4,16,false,true,0.0,0,0.0,NAN,x_alt,y_long,20));
+    wps.push_back(wp0.setWayPoints(4,16,false,true,0.0,0,0.0,NAN,x_,y_,20));
+    m->wpPush(wps);
+    m->wpPull();
 }
-void calu(double x_,double y_)
+void calu(double* x_,double* y_)
 {
-    x_ = 2 * x_alt - MY_TARGET_POINT_ALT - x_offset;
-    y_ = 2 * y_long - MY_TARGET_POINT_LONG - y_offset;
+    *x_ = 2 * x_alt - 280;
+    *y_ = 2 * y_long - 0;
 }

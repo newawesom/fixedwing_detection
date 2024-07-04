@@ -18,7 +18,7 @@ int event_Detect(ros::NodeHandle* nh)
     {
         if(stateM.state.mode == "AUTO.LOITER")
         {
-            detect();
+            detect();//detect()做成并行线程
             break;
         }
         ros::spinOnce();
@@ -49,17 +49,21 @@ void detec_setwp1(Modes* m)
     WayPointsCnt wp1;
     WayPointsCnt wp2;
     std::vector<mavros_msgs::Waypoint> wps;
-    wps.push_back(wp2.setWayPoints(3,16,false,true,0.0,0.0,0.0,NAN,MY_HOME_POINT_ALT,MY_HOME_POINT_LONG + 0.001,30));
-    wps.push_back(wp1.setWayPoints(3,19,false,true,10,0.0,-25,NAN,MY_HOME_POINT_ALT,MY_HOME_POINT_LONG + 0.001,30));
-    wps.push_back(wp.setWayPoints(3,16,false,true,0.0,0.0,0.0,NAN,MY_TARGET_POINT_ALT,MY_TARGET_POINT_LONG + 0.00015,30));
+//    wps.push_back(wp2.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,120,0,30));
+    wps.push_back(wp1.setWayPoints(4,19,false,true,8,0.0,-25,NAN,120,25,30));
+    wps.push_back(wp.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,200,0,30));
     m->wpPush(wps);
     m->wpPull();
 }
 void detec_setwp2(Modes* m)
 {
     WayPointsCnt wp1;
+    WayPointsCnt wp2;
+    WayPointsCnt wp3;
     std::vector<mavros_msgs::Waypoint> wps1;
-    wps1.push_back(wp1.setWayPoints(3,16,false,true,0.0,0.0,0.0,180,MY_TARGET_POINT_ALT,MY_TARGET_POINT_LONG + 0.002,30));
+    wps1.push_back(wp1.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,350,0,25));
+    wps1.push_back(wp2.setWayPoints(4,19,false,true,10,0,25,NAN,400,25.0,20));
+//    wps1.push_back(wp3.setWayPoints(4,19,false,true,15,0,25,NAN,400,25.0,20));
     m->wpPush(wps1);
     m->wpPull();
 }

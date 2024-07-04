@@ -55,6 +55,7 @@ void Modes::resetMode()
 }
 void Modes::wpPush(std::vector<mavros_msgs::Waypoint> wps)
 {
+    Modes::wpClear();
     wppush.request.waypoints = wps;
     wppush.request.start_index = 0;
     wpPushClient.call(wppush);

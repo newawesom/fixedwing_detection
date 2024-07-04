@@ -3,6 +3,7 @@
 #include "./idel.cpp"
 #include "./land.cpp"
 #include "./detect.cpp"
+#include "./task.cpp"
 Transition::Transition()
 {
     Transition::current = 0;
@@ -73,7 +74,7 @@ void FSM::event_trans(int cond)
         }
         if(flag != true)
         {
-            ROS_ERROR("No input and state Matches!!!");
+            //ROS_ERROR("No input and state Matches!!!");
         }
     }
 }
@@ -109,7 +110,7 @@ int FSM::event()
             break;
         case 3:
             ROS_INFO(">>>Tasking>>>");
-            //FSM::rc = event_Tasking();
+            FSM::rc = event_Tasking(_nh);
             if(rc)
                 ROS_INFO("Task has been finished.");
             return rc;

@@ -16,10 +16,10 @@ void land_wpSet(Modes* m)
     WayPointsCnt wp2;
     WayPointsCnt wp3;
     std::vector<mavros_msgs::Waypoint> wps;
-    wps.push_back(wp0.setWayPoints(3,16,false,true,0.0,0.0,0.0,NAN,MY_HOME_POINT_ALT,MY_HOME_POINT_LONG + 0.0038781,20));
-    wps.push_back(wp1.setWayPoints(3,16,false,true,0.0,0.0,0.0,NAN,MY_HOME_POINT_ALT,MY_HOME_POINT_LONG + 0.0023452,10));
+    wps.push_back(wp0.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,150,0,10));
+    wps.push_back(wp1.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,100,0,10));
     wps.push_back(wp2.setWayPoints(2,189,false,true,0,0,0,0,0,0,0));
-    wps.push_back(wp3.setWayPoints(3,21,false,true,0,0,0,NAN,MY_HOME_POINT_ALT,MY_HOME_POINT_LONG + 0.001,0));
+    wps.push_back(wp3.setWayPoints(4,21,false,true,0,0,0,NAN,30,0,0));
     m->wpPush(wps);
     m->wpPull();
 }
