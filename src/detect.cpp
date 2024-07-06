@@ -1,5 +1,6 @@
 #include"../include/fixedwing/WayPoints.h"
 #include<thread>
+#include<fstream>
 void detec_setwp1(Modes* m);
 void detec_setwp2(Modes* m);
 void detect(double*,double*);
@@ -73,4 +74,23 @@ void detec_setwp2(Modes* m)
 void detect(double* tar_x,double* tar_y)
 {
     ROS_WARN(">>>CAPTION>>>");
+    std::vector<double> tar;
+    std::ifstream inputFILE;
+    while(!inputFILE.is_open())
+    {
+        inputFILE.open("coodinate.txt");
+        for(;;)
+        {
+            if(inputFILE.is_open())
+            {
+                std::string line;
+                while(std::getline(inputFILE,line))
+                {
+                    tar.push_back(stod(line));
+                }
+            }
+        }
+    }
+    inputFILE.close();
+    //对数据进行处理！
 }
