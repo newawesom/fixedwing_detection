@@ -48,4 +48,22 @@
 
 15、起落架舵机驱动接口
 
-16、打击物理数学方法结算（算法优化）
+(Half Saved)16、打击物理数学方法结算（算法优化）(已完成第一版，待验证，待优化)
+$$
+V_x,V_y,V_z,X_{tar},Y_{tar},Z_{tar},X_{pose},Y_{pose},Z_{pose}
+$$
+
+$$
+Define:Z_{tar} = 0,Z_{pose} = h
+$$
+$$
+\begin{align}
+    V_zt+\frac{1}{2}gt^2=h,g=9.8m/s\\
+    ||X_{tar}-X_{pose}| - V_xt|<\delta\\
+    ||Y_{tar} - X_{pose}| - V_yt|<\delta
+\end{align}
+$$
+
+$$
+t=\frac{-2V_z+\sqrt{4V_z^2+8gh}}{2g}
+$$
