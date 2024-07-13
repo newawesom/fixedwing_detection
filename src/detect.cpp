@@ -16,7 +16,7 @@ int event_Detect(ros::NodeHandle* nh,double* tar_x,double* tar_y)
         ros::spinOnce();
         rate.sleep();   
     }
-    std::thread detect_thread(detect,tar_x,tar_y);//thread begin
+    //std::thread detect_thread(detect,tar_x,tar_y);//thread begin
     for(;;)
     {
         if(stateM.state.mode == "AUTO.LOITER")
@@ -39,7 +39,7 @@ int event_Detect(ros::NodeHandle* nh,double* tar_x,double* tar_y)
         ros::spinOnce();
         if(stateM.state.mode == "AUTO.LOITER")
         {
-            detect_thread.join();
+            //detect_thread.join();
             return 1;
             break;
         }
@@ -79,18 +79,18 @@ void detect(double* tar_x,double* tar_y)
     while(!inputFILE.is_open())
     {
         inputFILE.open("coodinate.txt");
-        for(;;)
+        if(inputFILE.is_open())
         {
-            if(inputFILE.is_open())
+            //获取飞机的位置坐标
+            std::string line;
+            while(std::getline(inputFILE,line))
             {
-                std::string line;
-                while(std::getline(inputFILE,line))
-                {
-                    tar.push_back(stod(line));
-                }
+                tar.push_back(stod(line));
             }
+            break;
         }
     }
     inputFILE.close();
+    ROS_WARN(">>>Caption finished.>>>");
     //对数据进行处理！
 }

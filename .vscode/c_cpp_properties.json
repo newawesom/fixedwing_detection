@@ -23,7 +23,12 @@
                 "/home/nh/catkin_ws/src/wpr_simulation-master/include/**",
                 "/usr/include/**",
                 "/opt/ros/noetic/include",
-                "/usr/include/eigen3"
+                "/usr/include/eigen3",
+                "/home/nh/volans/Firmware/src/**",
+                "/home/nh/volans/Firmware/platforms/common/include",
+                "/home/nh/volans/Firmware/build/px4_sitl_default",
+                "/home/nh/volans/Firmware/boards/px4/sitl/src",
+                "/home/nh/volans/Firmware/platforms/posix/include"
             ],
             "name": "ROS",
             "intelliSenseMode": "gcc-x64",

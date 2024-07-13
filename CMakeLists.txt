@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  serial
 )
 
 ## System dependencies are found with CMake's conventions
@@ -127,6 +128,7 @@ include_directories(
    src/WayPoint.cpp
    src/FinitStateMachine.cpp
    src/global_ENU_tf.cpp
+   src/my_serial.cpp
 #   src/takeoff.cpp
 #   src/idel.cpp
 #   src/land.cpp

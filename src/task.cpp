@@ -1,9 +1,17 @@
 #include"../include/fixedwing/WayPoints.h"
+#include"../include/fixedwing/my_serial.h"
 #include<thread>
 #include<geometry_msgs/PoseStamped.h>
 #include<geometry_msgs/TwistStamped.h>
+/*
+    @param x_alt 目标位置x坐标
+    @param y_long  目标位置y坐标
+*/
+My_Serial mysp;
 double x_alt = 240;
 double y_long = 0;
+unsigned int channel = 0;
+double pursle_width = 1500;
 void task_wpSet(Modes*,double,double);
 void calu(double*, double*);
 void autotriger(double*,double*,ros::NodeHandle* _nh,ros::Rate*);
@@ -113,7 +121,7 @@ double compute_time()
 {
     double vz = current_vel.twist.linear.z;
     double h = current_pose.pose.position.z;
-    double t = (-2.0 * vz + sqrt(4.0 * vz * vz + 8.0 * 9.8 * h))/(2.0 * 9.8);
+    double t = (2.0 * vz + sqrt(4.0 * vz * vz + 8.0 * 9.8 * h))/(2.0 * 9.8);
     return t;
 }
 bool is_time(double t, double tar_x, double tar_y)
@@ -126,4 +134,9 @@ bool is_time(double t, double tar_x, double tar_y)
     }
     else
         return false;
+}
+void Servo_do()
+{
+    ROS_WARN(">>>Servo>>>");
+    mysp.sendData();
 }
