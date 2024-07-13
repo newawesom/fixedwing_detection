@@ -5,7 +5,7 @@
 #include<geometry_msgs/TwistStamped.h>
 /*
     @param x_alt 目标位置x坐标
-    @param y_long  目标位置y坐标
+           y_long  目标位置y坐标
 */
 My_Serial mysp;
 double x_alt = 240;
@@ -104,7 +104,7 @@ void vel_CB(const geometry_msgs::TwistStamped::ConstPtr& msg)
 void autotriger(double* tar_x,double* tar_y, ros::NodeHandle* _nh,ros::Rate* _rate)
 {
     ros::Subscriber pose_sub = _nh->subscribe<geometry_msgs::PoseStamped>("/mavros/local_position/pose",10,pose_CB);
-    ros::Subscriber vel_sub = _nh->subscribe<geometry_msgs::TwistStamped>("/mavros/local_velocity/cmd_vel",10,vel_CB);
+    ros::Subscriber vel_sub = _nh->subscribe<geometry_msgs::TwistStamped>("/mavros/local_position/velocity_local",10,vel_CB);
     for(;;)
     {
         ros::spinOnce();

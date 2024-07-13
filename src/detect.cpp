@@ -1,13 +1,15 @@
 #include"../include/fixedwing/WayPoints.h"
+#include"../include/fixedwing/Moniter.h"
 #include<thread>
 #include<fstream>
 void detec_setwp1(Modes* m);
 void detec_setwp2(Modes* m);
-void detect(double*,double*);
+void detect(double*,double*,My_Moniter*);
 int event_Detect(ros::NodeHandle* nh,double* tar_x,double* tar_y)
 {
     Modes md(nh);
     stateMoniter stateM(nh);
+    My_Moniter myMon(nh);
     ros::Rate rate(20.0);
     detec_setwp1(&md);
     while(stateM.state.mode != "AUTO.MISSION")
@@ -71,7 +73,7 @@ void detec_setwp2(Modes* m)
     m->wpPush(wps1);
     m->wpPull();
 }
-void detect(double* tar_x,double* tar_y)
+void detect(double* tar_x,double* tar_y,My_Moniter* myMon)
 {
     ROS_WARN(">>>CAPTION>>>");
     std::vector<double> tar;
@@ -81,7 +83,10 @@ void detect(double* tar_x,double* tar_y)
         inputFILE.open("coodinate.txt");
         if(inputFILE.is_open())
         {
-            //获取飞机的位置坐标
+            ros::spinOnce();
+            tar.push_back(myMon->current_pose.pose.position.x);
+            tar.push_back(myMon->current_pose.pose.position.y);
+            //获取飞机的位置坐标，push_back到tar的前两行
             std::string line;
             while(std::getline(inputFILE,line))
             {
