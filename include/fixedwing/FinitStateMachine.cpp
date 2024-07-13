@@ -1,9 +1,9 @@
-#include "../include/fixedwing/FinitStateMachine.h"
-#include "./takeoff.cpp"
-#include "./idel.cpp"
-#include "./land.cpp"
-#include "./detect.cpp"
-#include "./task.cpp"
+#include "FinitStateMachine.h"
+#include "../../src/takeoff.cpp"
+#include "../../src/idel.cpp"
+#include "../../src/land.cpp"
+#include "../../src/detect.cpp"
+#include "../../src/task.cpp"
 Transition::Transition()
 {
     Transition::current = 0;

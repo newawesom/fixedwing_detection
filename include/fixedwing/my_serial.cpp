@@ -1,4 +1,4 @@
-#include"../include/fixedwing/my_serial.h"
+#include"my_serial.h"
 const unsigned char header[2] = {0x55, 0xaa};
 const unsigned char ender[2] = {0x0d, 0x0a};
 My_Serial::My_Serial()
@@ -31,7 +31,7 @@ void My_Serial::My_Serial_Init()
     }
     
 }
-bool My_Serial::sendData()
+void My_Serial::sendData()
 {
     unsigned char buf[8] = {0};
     int i, length = 1;

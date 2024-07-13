@@ -1,4 +1,4 @@
-#include "../include/fixedwing/WayPoints.h"
+#include "WayPoints.h"
 
 Modes::Modes(ros::NodeHandle* nh)
 {

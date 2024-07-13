@@ -125,10 +125,11 @@ include_directories(
  add_library(fixedwing
 #   include/${PROJECT_NAME}/WayPoints.h
 #   include/${PROJECT_NAME}/FinitStateMachine.h
-   src/WayPoint.cpp
-   src/FinitStateMachine.cpp
-   src/global_ENU_tf.cpp
-   src/my_serial.cpp
+   include/fixedwing/WayPoint.cpp
+   include/fixedwing/FinitStateMachine.cpp
+   include/fixedwing/global_ENU_tf.cpp
+   include/fixedwing/my_serial.cpp
+   include/fixedwing/Moniter.cpp
 #   src/takeoff.cpp
 #   src/idel.cpp
 #   src/land.cpp

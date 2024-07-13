@@ -32,11 +32,10 @@ class My_Serial
      * @brief 无参构造函数
     */
     My_Serial();
-    ~My_Serial();
     /**
      * @brief 向STM32F103C8T6发送数据
     */
-    bool sendData();
+    void sendData();
     /**
      * @brief 循环冗余校验
      * @param ptr buf数据数组
