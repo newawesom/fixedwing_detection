@@ -19,7 +19,7 @@
 ## 任务（7月19日）
 
 (Saved)1、舵机驱动程序(ros自带的串口驱动程序)
-2、非仿真环境下的飞行地理位置程序适配
+(Saved)2、非仿真环境下的飞行地理位置程序适配(只要确定HOME点和目标点的距离和方位即可)
 (Saved)3、头文件注释
 4、识别程序耦合
 5、文稿撰写
@@ -36,15 +36,15 @@
 
 (Saved)5、C++语言和python语言写出的代码是否有区别，需要验证。
 
-6、试飞时地理位置需要重新配置.
+(Saved)6、试飞时地理位置需要重新配置.(已成功配置，在地图上查询经纬度)
 
 (Saved)7、切换模式会进入死循环。（已将！=AUTO.MISSION修正为==AUTO.LOITER）
 
 (Saved)8、没编译上？？
 
-9、降落迎角过大
+(Saved)9、降落迎角过大（10:100 降落角约5度）
 
-(Saved)10、识别区域过小（高度调高）
+(Saved)10、识别区域过小（高度调高至30m）
 
 （Saved）11、经纬坐标设置麻烦（写了一个经纬坐标与当地坐标转换的类）
 
@@ -78,6 +78,44 @@ $$
 
 16、识别接口耦合问题，通过文件耦合，没能识别，再次识别解决。
 
-17、include头文件实现文件重新定向到include_dir中
+(Saved)17、include头文件实现文件重新定向到include_dir中
 
 (Saved)18、封装位置监听程序，在detec.cpp和task.cpp中复用。
+
+(Saved)19、确定HOME点和大概的目标点就能自动规划航点
+$$
+Define:TARGET\_RADIUS\quad as\quad\R\\
+TARGET\_THETA\quad as\quad \theta \\
+TARGET_X \quad as X_T \\
+TARGET_Y \quad as Y_T \\
+$$
+takeoff
+$$
+takeoff\rightarrow{}Pole:(0.5 \times \R, \theta ) ENU:(0.5X_T,0.5Y_T)\uparrow\\
+waypoint_0\rightarrow{}Pole:(0.5 \times \R, \theta ) ENU:(0.5X_T,0.5Y_T)\\
+$$
+idel
+$$
+loiter(altitude)\rightarrow{}Pole:(\R,\theta)ENU:(X_T,Y_T)\\
+loiter(time)\rightarrow{}Pole:(\R,\theta)ENU:(X_T,Y_T)\\
+$$
+detect
+$$
+loiter(time)\rightarrow{}Pole:(\sqrt{0.25\R^2+25^2},\theta + \arctan{\frac{25}{0.5\R}})\\
+ENU:(\sqrt{0.25\R^2+25^2}\cos{(\theta+\arctan{\frac{25}{0.5\R}})},\sqrt{0.25\R^2+25^2}\cos{(\theta + \arctan{\frac{25}{0.5\R}})})\\
+waypoint_0\rightarrow{}Pole:(\R-25,\theta)ENU:(X_T - 25\cos{\theta},Y_T - 25\sin\theta)\\
+\rightarrow{} CAPTION\\
+waypoint_1\rightarrow{}Pole:(\R + 25,\theta)ENU:(X_T+25\cos\theta,Y_T+25\cos\theta)\\
+loiter(time)\rightarrow{}Pole:(\sqrt{(\R+75)^2+25^2},\theta+\arctan{\frac{25}{\R+75}})
+$$
+task
+$$
+waypoint_0\rightarrow Pole:(\R + 25, \theta)\\
+waypoint_1\rightarrow According\space to\space camera\\
+waypoint_2\rightarrow .
+$$
+land
+$$
+waypoint_0\rightarrow Pole:(0.5\times\R,\theta)ENU:(0.5X_T,0.5Y_T)\downarrow\\
+waypoint_1\rightarrow Pole:(30,\theta)ENU:(30\cos\theta,30\sin\theta)
+$$

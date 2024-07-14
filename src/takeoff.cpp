@@ -53,10 +53,12 @@ void takeoffwp(Modes* m)
     WayPointsCnt wayp0;
     WayPointsCnt wayp1;
     std::vector<mavros_msgs::Waypoint> wps;
-    wps.push_back(wayp0.setWayPoints(4,22,true,true,0.0,0.0,0.0,NAN,150,0,20));
-    wps.push_back(wayp1.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,150,0,20));
-    //wps.push_back(wayp0.setWayPoints(4,22,true,true,0,0,0,NAN,0,100,10));
-    //wps.push_back(wayp1.setWayPoints(4,16,false,true,0,0,0,NAN,0,100,10));
+//    wps.push_back(wayp0.setWayPoints(4,22,true,true,0.0,0.0,0.0,NAN,150,0,20));
+//    wps.push_back(wayp1.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,150,0,20));
+    //wps.push_back(wayp0.setWayPoints(4,22,true,true,0,0,0,NAN,100,0,10));
+    //wps.push_back(wayp1.setWayPoints(4,16,false,true,0,0,0,NAN,100,0,10));
+    wps.push_back(wayp0.setWayPoints(4,22,true,true,0,0,0,NAN,0.5 * pole2enu_x(MY_TARGET_RADIUS,MY_TARGET_THETA),0.5 * pole2enu_y(MY_TARGET_RADIUS,MY_TARGET_THETA),20));
+    wps.push_back(wayp1.setWayPoints(4,16,false,true,0,0,0,NAN,0.5 * pole2enu_x(MY_TARGET_RADIUS,MY_TARGET_THETA),0.5 * pole2enu_y(MY_TARGET_RADIUS,MY_TARGET_THETA),20));
     m->wpPush(wps);
     m->wpPull();
 }
