@@ -130,6 +130,7 @@ include_directories(
    include/fixedwing/global_ENU_tf.cpp
    include/fixedwing/my_serial.cpp
    include/fixedwing/Moniter.cpp
+   include/fixedwing/ENU_Pole_tf.cpp
 #   src/takeoff.cpp
 #   src/idel.cpp
 #   src/land.cpp

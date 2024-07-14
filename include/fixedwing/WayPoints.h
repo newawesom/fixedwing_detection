@@ -15,9 +15,11 @@
 #include"global_ENU_tf.h"
 
 #define MY_HOME_POINT_ALT 47.3975171//The global latitude of home in Simulation
-//#define MY_HOME_POINT_ALT 34.0327721 //The global latitude of home in School(NPU)
+//#define MY_HOME_POINT_ALT 34.0327721 //The global latitude of home in School(NPU_Starfeild)
+//#define MY_HOME_POINT_ALT 34.0370868 //The global latitude of home in School(NPU_Cloudfeild)
 #define MY_HOME_POINT_LONG 8.5455938 //The global longtitude of home in Simulation
-//#define MY_HOME_POINT_ALT 108.7608450 //The global longtitude of home in School(NPU)
+//#define MY_HOME_POINT_LONG 108.7608450 //The global longtitude of home in School(NPU_Starfeild)
+//#define MY_HOME_POINT_LONG 108.7687547 //The global longtitude of home in School(NPU_Cloudfeild)
 #define MY_TARGET_POINT_ALT 47.3975171//The global position of target point.X_ALT
 #define MY_TARGET_POINT_LONG 8.5486766//The global position of target point.Y_LONG
 /**
@@ -56,7 +58,8 @@ class Modes
     */
     void setMode(std::string mod);
     /**
-     * @brief 重置飞行模式至 @arg AUTO.LOITER
+     * @brief 重置飞行模式至 
+     * @arg AUTO.LOITER
     */
     void resetMode();
     /**
@@ -104,7 +107,10 @@ class WayPointsCnt
     /**
      * @brief 设置航点
      * @ref 参考mavros航点上传
-     * @param fram 坐标系 @arg 3/6 相对海拔经纬坐标 @arg 2 任务坐标系 @arg 4 相对HOME点的ENU坐标系
+     * @param fram 坐标系 
+     * @arg 3/6 相对海拔经纬坐标 
+     * @arg 2 任务坐标系 
+     * @arg 4 相对HOME点的ENU坐标系
      * @param command 任务代码
      * @arg 21 起飞
      * @arg 16 航点

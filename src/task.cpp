@@ -3,11 +3,11 @@
 #include<thread>
 #include<geometry_msgs/PoseStamped.h>
 #include<geometry_msgs/TwistStamped.h>
-/*
-    @param x_alt 目标位置x坐标
-           y_long  目标位置y坐标
+//My_Serial mysp;
+/**
+*    @param x_alt 目标位置x坐标
+*    @param y_long  目标位置y坐标
 */
-My_Serial mysp;
 double x_alt = 240;
 double y_long = 0;
 unsigned int channel = 0;
@@ -128,7 +128,7 @@ bool is_time(double t, double tar_x, double tar_y)
 {
     double dx = abs(current_pose.pose.position.x - tar_x);
     double dy = abs(current_pose.pose.position.y - tar_y);
-    if(abs(current_vel.twist.linear.x * t - dx) < 3.0 && abs(current_vel.twist.linear.y * t - dy) < 3.0)
+    if(abs(abs(current_vel.twist.linear.x * t) - dx) < 3.0 && abs(abs(current_vel.twist.linear.y * t) - dy) < 3.0)
     {
         return true;
     }
@@ -138,5 +138,5 @@ bool is_time(double t, double tar_x, double tar_y)
 void Servo_do()
 {
     ROS_WARN(">>>Servo>>>");
-    mysp.sendData();
+    //mysp.sendData();
 }

@@ -55,6 +55,8 @@ void takeoffwp(Modes* m)
     std::vector<mavros_msgs::Waypoint> wps;
     wps.push_back(wayp0.setWayPoints(4,22,true,true,0.0,0.0,0.0,NAN,150,0,20));
     wps.push_back(wayp1.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,150,0,20));
+    //wps.push_back(wayp0.setWayPoints(4,22,true,true,0,0,0,NAN,0,100,10));
+    //wps.push_back(wayp1.setWayPoints(4,16,false,true,0,0,0,NAN,0,100,10));
     m->wpPush(wps);
     m->wpPull();
 }
