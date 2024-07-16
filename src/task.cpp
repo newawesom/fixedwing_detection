@@ -83,8 +83,8 @@ void task_wpSet(Modes* m,double x_, double y_)
     WayPointsCnt wp2;
     std::vector<mavros_msgs::Waypoint> wps;
     //wps.push_back(wp0.setWayPoints(4,16,false,true,0.0,0,0.0,NAN,280,0,20));
-    wps.push_back(wp0.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,pole2enu_x(MY_TARGET_RADIUS + 100.0, MY_TARGET_THETA),pole2enu_y(MY_TARGET_RADIUS + 100.0, MY_TARGET_THETA),30));
-    wps.push_back(wp0.setWayPoints(4,16,false,true,0.0,0,0.0,NAN,x_alt,y_long,15));
+    wps.push_back(wp0.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,pole2enu_x(MY_TARGET_RADIUS + 100.0, MY_TARGET_THETA),pole2enu_y(MY_TARGET_RADIUS + 100.0, MY_TARGET_THETA),33));
+    //wps.push_back(wp0.setWayPoints(4,16,false,true,0.0,0,0.0,NAN,x_alt,y_long,15));
     wps.push_back(wp0.setWayPoints(4,16,false,true,0.0,0,0.0,NAN,x_,y_,5));
     m->wpPush(wps);
     m->wpPull();

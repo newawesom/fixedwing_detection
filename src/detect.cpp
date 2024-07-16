@@ -33,7 +33,7 @@ int event_Detect(ros::NodeHandle* nh,double* tar_x,double* tar_y)
         ros::spinOnce();
         rate.sleep();
     }
-    //detec_setwp2(&md);
+    //detec_setwp2(&md);不需要再次设置航点
     /*
     while(stateM.state.mode != "AUTO.MISSION")
     {
