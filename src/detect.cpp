@@ -26,12 +26,15 @@ int event_Detect(ros::NodeHandle* nh,double* tar_x,double* tar_y)
         if(stateM.state.mode == "AUTO.LOITER")
         {
             //detect_thread.join();
+            test_thread.join();
+            return 1;
             break;
         }
         ros::spinOnce();
         rate.sleep();
     }
-    detec_setwp2(&md);
+    //detec_setwp2(&md);
+    /*
     while(stateM.state.mode != "AUTO.MISSION")
     {
         md.setMode("AUTO.MISSION");
@@ -50,7 +53,7 @@ int event_Detect(ros::NodeHandle* nh,double* tar_x,double* tar_y)
         }
         rate.sleep();
     }
-    
+    */
 }
 void detec_setwp1(Modes* m)
 {
@@ -63,6 +66,8 @@ void detec_setwp1(Modes* m)
     //wps.push_back(wp.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,200,0,30));
     wps.push_back(wp1.setWayPoints(4,19,false,true,8,0.0,-25,NAN,pole2enu_x(sqrt(0.25 * MY_TARGET_RADIUS * MY_TARGET_RADIUS + 25.0 * 25.0), MY_TARGET_THETA + atan(25.0 / (0.5 * MY_TARGET_RADIUS))),pole2enu_y(sqrt(0.25 * MY_TARGET_RADIUS * MY_TARGET_RADIUS + 25.0 * 25.0), MY_TARGET_THETA + atan(25.0 / (0.5 * MY_TARGET_RADIUS))),30));
     wps.push_back(wp.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,pole2enu_x(MY_TARGET_RADIUS - 25, MY_TARGET_THETA),pole2enu_y(MY_TARGET_RADIUS - 25, MY_TARGET_THETA),30));
+    wps.push_back(wp1.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,pole2enu_x(MY_TARGET_RADIUS + 25, MY_TARGET_THETA),pole2enu_y(MY_TARGET_RADIUS + 25,MY_TARGET_THETA),30));
+    wps.push_back(wp2.setWayPoints(4,19,false,true,10,0,25,NAN,pole2enu_x(sqrt((MY_TARGET_RADIUS + 175.0) * (MY_TARGET_RADIUS + 175.0) + 25.0 * 25.0),MY_TARGET_THETA + atan(25.0 / (MY_TARGET_RADIUS + 175.0))),pole2enu_y(sqrt((MY_TARGET_RADIUS + 175.0) * (MY_TARGET_RADIUS + 175.0) + 25.0 * 25.0),MY_TARGET_THETA + atan(25.0 / (MY_TARGET_RADIUS + 175.0))),25));
     m->wpPush(wps);
     m->wpPull();
 }
@@ -108,6 +113,6 @@ void detect(double* tar_x,double* tar_y,My_Moniter* myMon)
 }
 void test_detect(double* tar_x, double* tar_y)
 {
-    *tar_x = 225;
-    *tar_y =  0 ;
+    *tar_x = 243;//测试靶点x
+    *tar_y =  1 ;//测试靶点y
 }

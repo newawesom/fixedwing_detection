@@ -83,18 +83,18 @@ void task_wpSet(Modes* m,double x_, double y_)
     WayPointsCnt wp2;
     std::vector<mavros_msgs::Waypoint> wps;
     //wps.push_back(wp0.setWayPoints(4,16,false,true,0.0,0,0.0,NAN,280,0,20));
-    wps.push_back(wp0.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,pole2enu_x(MY_TARGET_RADIUS + 75.0, MY_TARGET_THETA),pole2enu_y(MY_TARGET_RADIUS + 75.0, MY_TARGET_THETA),25));
-    wps.push_back(wp0.setWayPoints(4,16,false,true,0.0,0,0.0,NAN,x_alt,y_long,10));
-    wps.push_back(wp0.setWayPoints(4,16,false,true,0.0,0,0.0,NAN,x_,y_,10));
+    wps.push_back(wp0.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,pole2enu_x(MY_TARGET_RADIUS + 100.0, MY_TARGET_THETA),pole2enu_y(MY_TARGET_RADIUS + 100.0, MY_TARGET_THETA),30));
+    wps.push_back(wp0.setWayPoints(4,16,false,true,0.0,0,0.0,NAN,x_alt,y_long,15));
+    wps.push_back(wp0.setWayPoints(4,16,false,true,0.0,0,0.0,NAN,x_,y_,5));
     m->wpPush(wps);
     m->wpPull();
 }
 void calu(double* x_,double* y_)
 {
     //*x_ = 2 * x_alt - 280;
-    *x_ = 2 * x_alt - pole2enu_x(MY_TARGET_RADIUS + 75.0, MY_TARGET_THETA);
+    *x_ = 2 * x_alt - pole2enu_x(MY_TARGET_RADIUS + 100.0, MY_TARGET_THETA);
     //*y_ = 2 * y_long - 0;
-    *y_ = 2 * y_long - pole2enu_y(MY_TARGET_RADIUS + 75.0, MY_TARGET_THETA);
+    *y_ = 2 * y_long - pole2enu_y(MY_TARGET_RADIUS + 100.0, MY_TARGET_THETA);
 }
 void pose_CB(const geometry_msgs::PoseStamped::ConstPtr& msg)
 {
