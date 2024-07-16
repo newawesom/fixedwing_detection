@@ -73,9 +73,9 @@ void detec_setwp2(Modes* m)
     WayPointsCnt wp3;
     std::vector<mavros_msgs::Waypoint> wps1;
     //wps1.push_back(wp1.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,350,0,25));
-    wps1.push_back(wp1.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,pole2enu_x(MY_TARGET_RADIUS + 25, MY_TARGET_THETA),pole2enu_y(MY_TARGET_RADIUS + 25,MY_TARGET_THETA),25));
+    wps1.push_back(wp1.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,pole2enu_x(MY_TARGET_RADIUS + 25, MY_TARGET_THETA),pole2enu_y(MY_TARGET_RADIUS + 25,MY_TARGET_THETA),30));
     //wps1.push_back(wp2.setWayPoints(4,19,false,true,10,0,25,NAN,400,25.0,20));
-    wps1.push_back(wp2.setWayPoints(4,19,false,true,10,0,25,NAN,pole2enu_x(sqrt((MY_TARGET_RADIUS + 175.0) * (MY_TARGET_RADIUS + 175.0) + 25.0 * 25.0),MY_TARGET_THETA + atan(25.0 / (MY_TARGET_RADIUS + 175.0))),pole2enu_y(sqrt((MY_TARGET_RADIUS + 175.0) * (MY_TARGET_RADIUS + 175.0) + 25.0 * 25.0),MY_TARGET_THETA + atan(25.0 / (MY_TARGET_RADIUS + 175.0))),20));
+    wps1.push_back(wp2.setWayPoints(4,19,false,true,10,0,25,NAN,pole2enu_x(sqrt((MY_TARGET_RADIUS + 175.0) * (MY_TARGET_RADIUS + 175.0) + 25.0 * 25.0),MY_TARGET_THETA + atan(25.0 / (MY_TARGET_RADIUS + 175.0))),pole2enu_y(sqrt((MY_TARGET_RADIUS + 175.0) * (MY_TARGET_RADIUS + 175.0) + 25.0 * 25.0),MY_TARGET_THETA + atan(25.0 / (MY_TARGET_RADIUS + 175.0))),25));
 //    wps1.push_back(wp3.setWayPoints(4,19,false,true,15,0,25,NAN,400,25.0,20));
     m->wpPush(wps1);
     m->wpPull();

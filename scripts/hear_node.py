@@ -2,10 +2,12 @@
 #-*- coding: UTF-8 -*- 
 
 import rospy
+import math
 from mavros_msgs.msg import State
 from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import TwistStamped
-
+tar_x=225
+tar_y=0
 current_state = State()
 current_pose = PoseStamped()
 current_vec = TwistStamped()
@@ -22,6 +24,14 @@ def vec_CB(msg):
 def tar_CB(msg):
     global target_pose
     target_pose = msg
+def compute_time(vz,z):
+    return ((2.0 * vz + math.sqrt(abs(4.0 * vz * vz + 8.0 * 9.8 * z)))/(2.0 * 9.8))
+def combat_d_x(vx,t,cur_x):
+    dx = tar_x - cur_x
+    return abs(dx - vx * t)
+def combat_d_y(vy,t,cur_y):
+    dy = tar_y - cur_y
+    return abs(dy - vy * t)
 if __name__ == "__main__": 
     rospy.init_node("hear_node_py")
 
@@ -32,7 +42,8 @@ if __name__ == "__main__":
     rate = rospy.Rate(10)
 
     while(not rospy.is_shutdown()):
-        if(current_state.armed == True):
-            rospy.loginfo("MODE->%s Position->x:%f y:%f z:%f Velocity->x:%f y:%f z:%f",current_state.mode,current_pose.pose.position.x,current_pose.pose.position.y,current_pose.pose.position.z,current_vec.twist.linear.x,current_vec.twist.linear.y,current_vec.twist.linear.z)
-            rospy.loginfo(">>>Target>>>x:%s y:%s z:%s", target_pose.pose.position.x, target_pose.pose.position.y, target_pose.pose.position.z)
+        rospy.loginfo("Position->x:%f y:%f z:%f",current_pose.pose.position.x,current_pose.pose.position.y,current_pose.pose.position.z)
+        rospy.loginfo("Velocity->x:%f y:%f z:%f",current_vec.twist.linear.x,current_vec.twist.linear.y,current_vec.twist.linear.z)
+        t = compute_time(current_vec.twist.linear.z,current_pose.pose.position.z)
+        rospy.logwarn("Difference->:x:%f y:%f t:%f",combat_d_x(current_vec.twist.linear.x,t,current_pose.pose.position.x),combat_d_y(current_vec.twist.linear.y,t,current_pose.pose.position.y),t)
         rate.sleep()
