@@ -57,6 +57,7 @@
 (Paused)15、起落架舵机驱动接口
 
 (Half Saved)16、打击物理数学方法结算（算法优化）(已完成第一版，待验证，待优化)
+
 $$
 V_x,V_y,V_z,X_{tar},Y_{tar},Z_{tar},X_{pose},Y_{pose},Z_{pose}
 $$
@@ -83,6 +84,7 @@ $$
 (Saved)18、封装位置监听程序，在detec.cpp和task.cpp中复用。
 
 (Saved)19、确定HOME点和大概的目标点就能自动规划航点
+
 $$
 Define:TARGET\_RADIUS\quad as\quad\R\\
 TARGET\_THETA\quad as\quad \theta \\
@@ -119,3 +121,5 @@ $$
 waypoint_0\rightarrow Pole:(0.5\times\R,\theta)ENU:(0.5X_T,0.5Y_T)\downarrow\\
 waypoint_1\rightarrow Pole:(30,\theta)ENU:(30\cos\theta,30\sin\theta)
 $$
+
+20、打击自动投弹系统写反馈回路？

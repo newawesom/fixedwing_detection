@@ -26,6 +26,6 @@ int main(int argc, char* argv[])
     setlocale(LC_ALL,"");
     ros::init(argc,argv,"fixedwing_node");
     ros::NodeHandle nh;
-    test(&nh);
+    fixedwing(&nh);
     return 0;
 }
