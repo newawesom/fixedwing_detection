@@ -21,7 +21,7 @@ void land_wpSet(Modes* m)
 //    wps.push_back(wp1.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,100,0,10));
     wps.push_back(wp2.setWayPoints(2,189,false,true,0,0,0,0,0,0,0));
     //wps.push_back(wp3.setWayPoints(4,21,false,true,0,0,0,NAN,30,0,0));
-    wps.push_back(wp3.setWayPoints(4,21,false,true,0,0,0,NAN,pole2enu_x(70,MY_TARGET_THETA),pole2enu_y(50,MY_TARGET_THETA),0));
+    wps.push_back(wp3.setWayPoints(4,21,false,true,0,0,0,NAN,pole2enu_x(75,MY_TARGET_THETA),pole2enu_y(75,MY_TARGET_THETA),0));
     m->wpPush(wps);
     m->wpPull();
 }

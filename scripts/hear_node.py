@@ -6,8 +6,8 @@ import math
 from mavros_msgs.msg import State
 from geometry_msgs.msg import PoseStamped
 from geometry_msgs.msg import TwistStamped
-tar_x=225
-tar_y=0
+tar_x=243
+tar_y=1
 current_state = State()
 current_pose = PoseStamped()
 current_vec = TwistStamped()
@@ -38,7 +38,6 @@ if __name__ == "__main__":
     state_sub = rospy.Subscriber('/mavros/state',State,callback=state_CB)
     pose_sub = rospy.Subscriber("/mavros/local_position/pose",PoseStamped,callback=pose_CB)
     vec_sub = rospy.Subscriber("/mavros/local_position/velocity_local",TwistStamped,callback=vec_CB)
-    target_pub = rospy.Subscriber("/mavros/setpoint_position/local",PoseStamped,callback=tar_CB)
     rate = rospy.Rate(10)
 
     while(not rospy.is_shutdown()):

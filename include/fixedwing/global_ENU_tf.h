@@ -1,3 +1,5 @@
+#ifndef __GLOBAL_2_ENU_TF
+#define __GLOBAL_2_ENU_TF
 #include<math.h>
 #include<iostream>
 #define EARTH_R 6371393
@@ -78,3 +80,4 @@ class transf
     */
     double deg2rad(double);
 };
+#endif

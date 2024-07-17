@@ -1,5 +1,5 @@
+#define SET_HOMEPOINT_SIM
 #include "WayPoints.h"
-
 Modes::Modes(ros::NodeHandle* nh)
 {
     _nh = nh;

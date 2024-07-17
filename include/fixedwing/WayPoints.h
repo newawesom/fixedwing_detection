@@ -1,5 +1,23 @@
-#ifndef TEST_WAYPOINTS
-#define TEST_WAYPOINTS
+#ifdef SET_HOMEPOINT_SIM
+#define MY_HOME_POINT_ALT 47.3975171//The global latitude of home in Simulation
+#define MY_HOME_POINT_LONG 8.5455938 //The global longtitude of home in Simulation
+#endif
+#ifdef SET_HOMEPOINT_NPU_STAR
+#define MY_HOME_POINT_ALT 34.0327721 //The global latitude of home in School(NPU_Starfeild)
+#define MY_HOME_POINT_LONG 108.7608450 //The global longtitude of home in School(NPU_Starfeild)
+#endif
+#ifdef SET_HOMEPOINT_NPU_CLOUD
+#define MY_HOME_POINT_ALT 34.0370868 //The global latitude of home in School(NPU_Cloudfeild)
+#define MY_HOME_POINT_LONG 108.7687547 //The global longtitude of home in School(NPU_Cloudfeild)
+#endif
+#ifdef SET_HOMEPOINT_CUADC_BLUE
+
+#endif
+#ifdef SET_HOMEPOINT_CUADC_RED
+
+#endif
+#ifndef __TEST_WAYPOINTS
+#define __TEST_WAYPOINTS
 #include<iostream>
 #include<ros/ros.h>
 #include<vector>
@@ -15,16 +33,8 @@
 #include"global_ENU_tf.h"
 #include"ENU_Pole_tf.h"
 
-#define MY_HOME_POINT_ALT 47.3975171//The global latitude of home in Simulation
-//#define MY_HOME_POINT_ALT 34.0327721 //The global latitude of home in School(NPU_Starfeild)
-//#define MY_HOME_POINT_ALT 34.0370868 //The global latitude of home in School(NPU_Cloudfeild)
-#define MY_HOME_POINT_LONG 8.5455938 //The global longtitude of home in Simulation
-//#define MY_HOME_POINT_LONG 108.7608450 //The global longtitude of home in School(NPU_Starfeild)
-//#define MY_HOME_POINT_LONG 108.7687547 //The global longtitude of home in School(NPU_Cloudfeild)
 #define MY_TARGET_RADIUS 220.0 //meter
 #define MY_TARGET_THETA 0 //Rad
-#define MY_TARGET_POINT_ALT 47.3975171//The global position of target point.X_ALT
-#define MY_TARGET_POINT_LONG 8.5486766//The global position of target point.Y_LONG
 /**
  * @brief 综合飞行管理类
  * @private 
