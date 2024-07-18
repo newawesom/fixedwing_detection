@@ -14,7 +14,7 @@ unsigned int channel = 0;
 double pursle_width = 1500;
 void task_wpSet(Modes*,double,double);
 void calu(double*, double*);
-void autotriger(double*,double*,ros::NodeHandle* _nh,ros::Rate*);
+void autotriger(double*,double*,ros::NodeHandle* _nh,ros::Rate*, bool* flag, bool* hault);
 void Servo_do();
 void pose_CB(const geometry_msgs::PoseStamped::ConstPtr&);
 void vel_CB(const geometry_msgs::TwistStamped::ConstPtr&);
@@ -38,14 +38,24 @@ int event_Tasking(ros::NodeHandle* nh,double* tar_x, double* tar_y)
         ros::spinOnce();
         rate.sleep();
     }
-    std::thread bomb_thread(autotriger,tar_x,tar_y,nh,&rate);//thread begin
+    bool flag = false;
+    bool hault = false;
+    std::thread bomb_thread(autotriger,tar_x,tar_y,nh,&rate, &flag, &hault);//thread begin
     for(;;)
     {
         if(stateM.state.mode == "AUTO.LOITER")
         {
-            bomb_thread.join();//thread.join();
-            return 1;
-            break;
+            if(flag)
+            {
+                bomb_thread.join();
+                return 1;
+            }
+            else
+            {
+                hault = true;
+                bomb_thread.detach();
+                return 0;
+            }
         }
         ros::spinOnce();
         rate.sleep();
@@ -104,7 +114,7 @@ void vel_CB(const geometry_msgs::TwistStamped::ConstPtr& msg)
 {
     current_vel = *msg;
 }
-void autotriger(double* tar_x,double* tar_y, ros::NodeHandle* _nh,ros::Rate* _rate)
+void autotriger(double* tar_x,double* tar_y, ros::NodeHandle* _nh,ros::Rate* _rate, bool* flag, bool* hault)
 {
     ros::Subscriber pose_sub = _nh->subscribe<geometry_msgs::PoseStamped>("/mavros/local_position/pose",10,pose_CB);
     ros::Subscriber vel_sub = _nh->subscribe<geometry_msgs::TwistStamped>("/mavros/local_position/velocity_local",10,vel_CB);
@@ -115,8 +125,11 @@ void autotriger(double* tar_x,double* tar_y, ros::NodeHandle* _nh,ros::Rate* _ra
         {
             ROS_WARN("BOMB!");
             Servo_do();
+            *flag = true;
             break;
         }
+        if(*hault)
+            break;
         _rate->sleep();
     }    
 }

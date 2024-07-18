@@ -113,6 +113,8 @@ int FSM::event(double* tar_x,double *tar_y)
             FSM::rc = event_Tasking(_nh, tar_x, tar_y);
             if(rc)
                 ROS_INFO("Task has been finished.");
+            else
+                ROS_ERROR("Task wrong!");
             return rc;
             break;
         case 4:
@@ -136,7 +138,7 @@ void FSM::run()
         if(FSM::current_state == 4)
         {
             ROS_INFO("Exit.");
-            break;
+            return;
         }
         FSM::event_trans(FSM::rc);
     }

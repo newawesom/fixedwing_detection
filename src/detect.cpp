@@ -4,8 +4,8 @@
 #include<fstream>
 void detec_setwp1(Modes* m);
 void detec_setwp2(Modes* m);
-void detect(double*,double*,My_Moniter*);
-void test_detect(double*,double*);
+void detect(double*,double*,My_Moniter*,bool* f, bool* hault);
+void test_detect(double*,double*,bool* f, bool* hault);
 int event_Detect(ros::NodeHandle* nh,double* tar_x,double* tar_y)
 {
     Modes md(nh);
@@ -19,16 +19,26 @@ int event_Detect(ros::NodeHandle* nh,double* tar_x,double* tar_y)
         ros::spinOnce();
         rate.sleep();   
     }
+    bool flag = false;
+    bool hault = false;
     //std::thread detect_thread(detect,tar_x,tar_y);//thread begin
-    std::thread test_thread(test_detect,tar_x,tar_y);
+    std::thread test_thread(test_detect,tar_x,tar_y, &flag, &hault);
     for(;;)
     {
+
         if(stateM.state.mode == "AUTO.LOITER")
         {
-            //detect_thread.join();
-            test_thread.join();
-            return 1;
-            break;
+            if(flag)
+            {
+                test_thread.join();
+                return 1;
+            }
+            else
+            {
+                hault = true;
+                test_thread.detach();
+                return 0;
+            }
         }
         ros::spinOnce();
         rate.sleep();
@@ -44,12 +54,7 @@ int event_Detect(ros::NodeHandle* nh,double* tar_x,double* tar_y)
     for(;;)
     {
         ros::spinOnce();
-        if(stateM.state.mode == "AUTO.LOITER")
-        {
-            //detect_thread.join();
-            test_thread.join();
-            return 1;
-            break;
+        if(stateM.state.mode == "AUTO.LOITER")    int* flag = new int;
         }
         rate.sleep();
     }
@@ -64,15 +69,15 @@ void detec_setwp1(Modes* m)
 //    wps.push_back(wp2.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,120,0,30));
     //wps.push_back(wp1.setWayPoints(4,19,false,true,8,0.0,-25,NAN,120,25,30));
     //wps.push_back(wp.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,200,0,30));
-    wps.push_back(wp1.setWayPoints(4,19,false,true,8,0.0,-25,NAN,pole2enu_x(sqrt(0.25 * MY_TARGET_RADIUS * MY_TARGET_RADIUS + 25.0 * 25.0), MY_TARGET_THETA + atan(25.0 / (0.5 * MY_TARGET_RADIUS))),pole2enu_y(sqrt(0.25 * MY_TARGET_RADIUS * MY_TARGET_RADIUS + 25.0 * 25.0), MY_TARGET_THETA + atan(25.0 / (0.5 * MY_TARGET_RADIUS))),30));
+    wps.push_back(wp1.setWayPoints(4,19,false,true,7,0.0,-25,NAN,pole2enu_x(sqrt(0.25 * MY_TARGET_RADIUS * MY_TARGET_RADIUS + 25.0 * 25.0), MY_TARGET_THETA + atan(25.0 / (0.5 * MY_TARGET_RADIUS))),pole2enu_y(sqrt(0.25 * MY_TARGET_RADIUS * MY_TARGET_RADIUS + 25.0 * 25.0), MY_TARGET_THETA + atan(25.0 / (0.5 * MY_TARGET_RADIUS))),30));
     wps.push_back(wp.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,pole2enu_x(MY_TARGET_RADIUS - 25, MY_TARGET_THETA),pole2enu_y(MY_TARGET_RADIUS - 25, MY_TARGET_THETA),30));
     wps.push_back(wp.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,pole2enu_x(MY_TARGET_RADIUS,MY_TARGET_THETA),pole2enu_y(MY_TARGET_RADIUS,MY_TARGET_THETA),30));
-    wps.push_back(wp1.setWayPoints(4,16,false,true,0.0,0.0,0.0,NAN,pole2enu_x(MY_TARGET_RADIUS + 25, MY_TARGET_THETA),pole2enu_y(MY_TARGET_RADIUS + 25,MY_TARGET_THETA),30));
-    wps.push_back(wp2.setWayPoints(4,19,false,true,10,0,25,NAN,pole2enu_x(sqrt((MY_TARGET_RADIUS + 150.0) * (MY_TARGET_RADIUS + 150.0) + 25.0 * 25.0),MY_TARGET_THETA + atan(25.0 / (MY_TARGET_RADIUS + 150.0))),pole2enu_y(sqrt((MY_TARGET_RADIUS + 150.0) * (MY_TARGET_RADIUS + 150.0) + 25.0 * 25.0),MY_TARGET_THETA + atan(25.0 / (MY_TARGET_RADIUS + 150.0))),25));
+    wps.push_back(wp1.setWayPoints(4,16,false,true,0.0,0.0,0.0,0,pole2enu_x(MY_TARGET_RADIUS + 50, MY_TARGET_THETA),pole2enu_y(MY_TARGET_RADIUS + 25,MY_TARGET_THETA),30));
+    wps.push_back(wp2.setWayPoints(4,19,false,true,9,0,25,NAN,pole2enu_x(sqrt((MY_TARGET_RADIUS + 150.0) * (MY_TARGET_RADIUS + 150.0) + 25.0 * 25.0),MY_TARGET_THETA + atan(25.0 / (MY_TARGET_RADIUS + 150.0))),pole2enu_y(sqrt((MY_TARGET_RADIUS + 150.0) * (MY_TARGET_RADIUS + 150.0) + 25.0 * 25.0),MY_TARGET_THETA + atan(25.0 / (MY_TARGET_RADIUS + 150.0))),25));
     m->wpPush(wps);
     m->wpPull();
 }
-void detec_setwp2(Modes* m)
+void detec_setwp2(Modes* m)//已停用
 {
     WayPointsCnt wp1;
     WayPointsCnt wp2;
@@ -86,7 +91,7 @@ void detec_setwp2(Modes* m)
     m->wpPush(wps1);
     m->wpPull();
 }
-void detect(double* tar_x,double* tar_y,My_Moniter* myMon)
+void detect(double* tar_x,double* tar_y,My_Moniter* myMon, bool* f, bool* hault)
 {
     ROS_WARN(">>>CAPTION>>>");
     std::vector<double> tar;
@@ -107,13 +112,30 @@ void detect(double* tar_x,double* tar_y,My_Moniter* myMon)
             }
             break;
         }
+        if(*hault)
+        {
+            return;
+        }
     }
     inputFILE.close();
     ROS_WARN(">>>Caption finished.>>>");
     //对数据进行处理！
+
+    *f = true;
 }
-void test_detect(double* tar_x, double* tar_y)
+void test_detect(double* tar_x, double* tar_y, bool* f, bool* hault)
 {
     *tar_x = 243;//测试靶点x
     *tar_y =  1 ;//测试靶点y
+    for(;;)
+    {
+        //Test
+        break;
+        //
+        if(*hault)
+        {
+            return;   
+        }
+    }
+    *f = true;
 }
