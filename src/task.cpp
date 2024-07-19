@@ -12,8 +12,9 @@ double x_alt = 240;
 double y_long = 0;
 unsigned int channel = 0;
 double pursle_width = 1500;
-void task_wpSet(Modes*,double,double);
-void calu(double*, double*);
+void task_wpSet_1(Modes*,double,double);
+void task_wpSet_2(Modes*,double,double);
+void calu(double*, double*,double,double);
 void autotriger(double*,double*,ros::NodeHandle* _nh,ros::Rate*, bool* flag, bool* hault);
 void Servo_do();
 void pose_CB(const geometry_msgs::PoseStamped::ConstPtr&);
@@ -22,7 +23,7 @@ double compute_time();
 bool is_time(double,double,double);
 geometry_msgs::PoseStamped current_pose;
 geometry_msgs::TwistStamped current_vel;
-int event_Tasking(ros::NodeHandle* nh,double* tar_x, double* tar_y)
+int event_Tasking_1(ros::NodeHandle* nh,double* tar_x, double* tar_y)
 {
     Modes md(nh);
     stateMoniter stateM(nh);
@@ -30,8 +31,8 @@ int event_Tasking(ros::NodeHandle* nh,double* tar_x, double* tar_y)
     x_alt = *tar_x;
     y_long = *tar_y;
     double x_,y_;
-    calu(&x_,&y_);
-    task_wpSet(&md,x_,y_);
+    calu(&x_,&y_,pole2enu_x(1.5 * MY_TARGET_RADIUS, MY_TARGET_THETA),pole2enu_y(1.5 * MY_TARGET_RADIUS, MY_TARGET_THETA));
+    task_wpSet_1(&md,x_,y_);
     while(stateM.state.mode != "AUTO.MISSION")
     {
         md.setMode("AUTO.MISSION");
@@ -61,32 +62,46 @@ int event_Tasking(ros::NodeHandle* nh,double* tar_x, double* tar_y)
         rate.sleep();
     }
 }
-int event_Tasking(ros::NodeHandle* nh)
+int event_Tasking_2(ros::NodeHandle* nh, double* tar_x, double* tar_y)
 {
     Modes md(nh);
     stateMoniter stateM(nh);
     ros::Rate rate(40.0);
+    x_alt = *tar_x;
+    y_long = *tar_y;
     double x_,y_;
-    calu(&x_,&y_);
-    task_wpSet(&md,x_,y_);
+    calu(&x_,&y_,pole2enu_x(MY_TARGET_RADIUS - 100, MY_TARGET_THETA),pole2enu_y(MY_TARGET_RADIUS - 100, MY_TARGET_THETA));
+    task_wpSet_2(&md,x_,y_);
     while(stateM.state.mode != "AUTO.MISSION")
     {
         md.setMode("AUTO.MISSION");
         ros::spinOnce();
         rate.sleep();
     }
+    bool flag = false;
+    bool hault = false;
+    std::thread bomb_thread(autotriger,tar_x,tar_y,nh,&rate,&flag,&hault);
     for(;;)
     {
         if(stateM.state.mode == "AUTO.LOITER")
         {
-            return 1;
-            break;
+            if(flag)
+            {
+                bomb_thread.join();
+                return 1;
+            }
+            else
+            {
+                hault = true;
+                bomb_thread.detach();
+                return 0;
+            }
         }
         ros::spinOnce();
         rate.sleep();
     }
 }
-void task_wpSet(Modes* m,double x_, double y_)
+void task_wpSet_1(Modes* m,double x_, double y_)
 {
     WayPointsCnt wp0;
     WayPointsCnt wp1;
@@ -99,12 +114,19 @@ void task_wpSet(Modes* m,double x_, double y_)
     m->wpPush(wps);
     m->wpPull();
 }
-void calu(double* x_,double* y_)
+void task_wpSet_2(Modes* m, double x_, double y_)
+{
+    WayPointsCnt wp;
+    std::vector<mavros_msgs::Waypoint> wps;
+    wps.push_back(wp.setWayPoints(4,16,false,true,0,0,0,NAN,pole2enu_x(MY_TARGET_RADIUS * 0.5, MY_TARGET_THETA),pole2enu_y(MY_TARGET_RADIUS * 0.5, MY_TARGET_THETA),30));
+    wps.push_back(wp.setWayPoints(4,16,false,true,0,0,0,NAN,x_,y_,5));
+}
+void calu(double* x_,double* y_,double start_x, double start_y)
 {
     //*x_ = 2 * x_alt - 280;
-    *x_ = 2 * x_alt - pole2enu_x(1.5 * MY_TARGET_RADIUS, MY_TARGET_THETA);
+    *x_ = 2 * x_alt - start_x;
     //*y_ = 2 * y_long - 0;
-    *y_ = 2 * y_long - pole2enu_y(1.5 * MY_TARGET_RADIUS, MY_TARGET_THETA);
+    *y_ = 2 * y_long - start_y;
 }
 void pose_CB(const geometry_msgs::PoseStamped::ConstPtr& msg)
 {

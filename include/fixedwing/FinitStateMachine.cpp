@@ -82,7 +82,7 @@ int FSM::event(double* tar_x,double *tar_y)
 {
     switch(FSM::current_state)
     {
-        case 0:
+        case MY_TAKEOFF:
             ROS_INFO(">>>Take Off!");
             FSM::rc = event_Takeoff(_nh);
             if(rc)
@@ -91,37 +91,61 @@ int FSM::event(double* tar_x,double *tar_y)
                 ROS_ERROR("Unable to take off!");
             return rc;
             break;
-        case 1:
-            ROS_INFO(">>>IDEL:Waiting for detection...");
-            FSM::rc = event_Idel(_nh);
-            return rc;
-            break;
-        case 2:
+        case MY_DETEC_1:
             ROS_INFO(">>>Detecting");
-            FSM::rc = event_Detect(_nh, tar_x, tar_y);
+            FSM::rc = event_Detect_1(_nh, tar_x, tar_y);
             if(rc)
             {
                 ROS_INFO("Detected!");
                 ROS_INFO(">>>Ready for task...");
             }
             else
+            {
                 ROS_WARN("Nothing has been detected!");
+            }
             return rc;
             break;
-        case 3:
-            ROS_INFO(">>>Tasking>>>");
-            FSM::rc = event_Tasking(_nh, tar_x, tar_y);
+        case MY_DETEC_2:
+            ROS_INFO(">>>Detecting");
+            FSM::rc = event_Detect_2(_nh, tar_x, tar_y);
             if(rc)
-                ROS_INFO("Task has been finished.");
+            {
+                ROS_INFO("Detected!");
+                ROS_INFO(">>>Ready for task...");
+            }
             else
-                ROS_ERROR("Task wrong!");
+            {
+                ROS_WARN("Nothing has been detected!");
+            }
             return rc;
             break;
-        case 4:
+        case MY_TASK_1:
+            ROS_INFO(">>>Tasking>>>");
+            FSM::rc = event_Tasking_1(_nh, tar_x, tar_y);
+            if(rc)
+            {
+                ROS_INFO("Task has been finished.");
+            }
+            else
+                ROS_WARN("Task wrong");
+            return rc;
+            break;
+        case MY_TASK_2:
+            ROS_INFO(">>>Tasking>>>");
+            FSM::rc = event_Tasking_2(_nh, tar_x, tar_y);
+            if(rc)
+            {
+                ROS_INFO("Task has been finished.");
+            }
+            else
+                ROS_WARN("Task wrong");
+            return rc;
+            break;
+        case MY_LAND:
             ROS_INFO(">>>Landing...");
             FSM::rc = event_Landing(_nh);
             if(rc)
-                ROS_INFO("Landed.");
+                ROS_INFO("Landed");
             return rc;
             break;
         default:
@@ -135,7 +159,7 @@ void FSM::run()
     for(;;)
     {
         FSM::event(&tar_x,&tar_y);
-        if(FSM::current_state == 4)
+        if(FSM::current_state == MY_LAND)
         {
             ROS_INFO("Exit.");
             return;

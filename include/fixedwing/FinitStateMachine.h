@@ -3,10 +3,11 @@
 #include<ros/ros.h>
 
 #define MY_TAKEOFF 0
-#define MY_IDEL 1
-#define MY_DETEC 2
-#define MY_TASK 3
-#define MY_LAND 4
+#define MY_DETEC_1 10
+#define MY_DETEC_2 11
+#define MY_TASK_1 20
+#define MY_TASK_2 21
+#define MY_LAND 3
 
 #define MY_FAIL 0
 #define MY_SUCCESS 1

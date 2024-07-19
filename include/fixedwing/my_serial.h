@@ -6,6 +6,7 @@
 #include<serial/serial.h>
 /**
  * @brief 串口通讯类
+ * @private
  * @param to Timeout链接超时时间
  * @param pt 校验位
  * @param bt 传入数据长度
