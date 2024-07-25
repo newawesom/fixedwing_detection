@@ -171,7 +171,7 @@ void test_detect(double* tar_x, double* tar_y, bool* f, bool* hault)
     for(;;)
     {
         //Test
-        //break;
+        break;
         //
         if(*hault)
         {
