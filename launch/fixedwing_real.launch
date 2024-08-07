@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- MAVROS CONFIGURE-->
+    <arg name="fcu_url" default="/dev/ttyACM0:57600"/>
+    <arg name="respawn_mavros" default="false"/>
+
+    <!-- MAVROS -->
+    <include file="$(find mavros)/launch/px4.launch">
+        <!-- GCS link must be provided! -->
+         <!-- use GCS default value-->
+        <arg name="fcu_url" value="$(arg fcu_url)"/>
+        <arg name="respawn_mavros" value="$(arg respawn_mavros)"/>
+    </include>
+
+    <!-- AutoPilot-->
+    <include file = "$(find fixedwing)/launch/fixedwing.launch">
+    </include>
+</launch>

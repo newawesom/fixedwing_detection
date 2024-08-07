@@ -4,6 +4,7 @@
 #include "../../src/land.cpp"
 #include "../../src/detect.cpp"
 #include "../../src/task.cpp"
+#include "../../src/debug.cpp"
 Transition::Transition()
 {
     Transition::current = 0;
@@ -55,6 +56,7 @@ int FSM::getState()
 void FSM::setStart_State(int sta)
 {
     FSM::start_state = sta;
+    FSM::current_state = sta;
 }
 void FSM::setTrans(Transition tra)
 {
@@ -148,6 +150,15 @@ int FSM::event(double* tar_x,double *tar_y)
                 ROS_INFO("Landed");
             return rc;
             break;
+        case MY_DEBUG:
+            ROS_INFO(">>>DEBUG>>>");
+            FSM::rc = event_Debug(_nh);
+            if(rc)
+                ROS_INFO("SUCCESS");
+            else
+                ROS_ERROR("FAIL");
+            return rc;
+            break;
         default:
             return rc;
             break;
@@ -159,7 +170,7 @@ void FSM::run()
     for(;;)
     {
         FSM::event(&tar_x,&tar_y);
-        if(FSM::current_state == MY_LAND)
+        if(FSM::current_state == MY_LAND || MY_DEBUG)
         {
             ROS_INFO("Exit.");
             return;

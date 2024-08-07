@@ -1,6 +1,14 @@
 #include"../include/fixedwing/FinitStateMachine.h"
 void test(ros::NodeHandle* nh){
     FSM fsm(nh);
+    
+    fsm.setStart_State(MY_DEBUG);
+    fsm.setTrans(Transition(MY_DEBUG,MY_SUCCESS,MY_DEBUG));
+    fsm.run();
+}
+void fixedwing(ros::NodeHandle* nh)
+{
+    FSM fsm(nh);
 
     fsm.setTrans(Transition(MY_TAKEOFF,MY_SUCCESS,MY_DETEC_1));
     fsm.setTrans(Transition(MY_TAKEOFF,MY_FAIL,MY_LAND));
@@ -14,15 +22,12 @@ void test(ros::NodeHandle* nh){
     fsm.setTrans(Transition(MY_TASK_2,MY_FAIL,MY_TASK_1));
     fsm.run();
 }
-void fixedwing(ros::NodeHandle* nh)
-{
-    
-}
 int main(int argc, char* argv[])
 {
     setlocale(LC_ALL,"");
     ros::init(argc,argv,"fixedwing_node");
     ros::NodeHandle nh;
+    //fixedwing(&nh);
     test(&nh);
     return 0;
 }

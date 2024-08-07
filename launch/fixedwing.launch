@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+     <node pkg="fixedwing" type="fixedwing_node" name="fixedwing_node" required="true" output="screen" />
+</launch>

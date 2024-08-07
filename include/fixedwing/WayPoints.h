@@ -32,9 +32,13 @@
 #include<mavros_msgs/State.h>
 #include"global_ENU_tf.h"
 #include"ENU_Pole_tf.h"
-
+#ifndef DEBUG_MODE
 #define MY_TARGET_RADIUS 220.0 //meter
 #define MY_TARGET_THETA 0 //Rad
+#endif
+#ifdef DEBUG_MODE
+//Debug 
+#endif
 /**
  * @brief 综合飞行管理类
  * @private 

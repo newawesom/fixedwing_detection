@@ -8,6 +8,7 @@
 #define MY_TASK_1 20
 #define MY_TASK_2 21
 #define MY_LAND 3
+#define MY_DEBUG 777
 
 #define MY_FAIL 0
 #define MY_SUCCESS 1
